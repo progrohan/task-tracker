@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+
+    group = 'progrohan.task-tracker'
+    version = '1.0.0'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

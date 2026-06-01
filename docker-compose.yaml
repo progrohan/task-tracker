@@ -1,0 +1,60 @@
+services:
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    networks:
+      - app-network
+
+  kafka:
+    image: apache/kafka:4.0.0
+    ports:
+      - "9092:9092"
+    networks:
+      - app-network
+
+  backend:
+    build:
+      dockerfile: backend/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - kafka
+    networks:
+      - app-network
+
+#  scheduler:
+#    build:
+#      context: ..
+#      dockerfile: scheduler/Dockerfile
+#    depends_on:
+#      - postgres
+#      - kafka
+#
+#  email-sender:
+#    build:
+#      context: ..
+#      dockerfile: email-sender/Dockerfile
+#    depends_on:
+#      - kafka
+#
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
