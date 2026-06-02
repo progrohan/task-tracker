@@ -23,3 +23,45 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
+  - changeSet:
+      id: 2-create-tasks
+      author: progrohan
+      changes:
+        - createTable:
+            tableName: tasks
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_tasks_user_id
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    deleteCascade: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: completed_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: true
