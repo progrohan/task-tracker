@@ -1,15 +1,19 @@
-// API модуль
 const API = {
     BASE: '/api',
 
     request(url, method, data) {
-        return $.ajax({
+        const settings = {
             url: `${this.BASE}${url}`,
             method: method,
             contentType: 'application/json',
-            data: data ? JSON.stringify(data) : undefined,
             headers: this.getHeaders()
-        });
+        };
+
+        if (data !== undefined) {
+            settings.data = JSON.stringify(data);
+        }
+
+        return $.ajax(settings);
     },
 
     getHeaders() {
@@ -21,7 +25,7 @@ const API = {
         return headers;
     },
 
-
+    // Auth
     signUp(name, password) {
         return this.request('/auth/sign-up', 'POST', { name, password });
     },
@@ -34,14 +38,36 @@ const API = {
         return this.request('/auth/sign-out', 'POST');
     },
 
-    // Получение текущего пользователя
     getCurrentUser() {
-        console.log('getCurrentUser called');
-        const result = this.request('/user/me', 'GET');
-        console.log('request result:', result);
-        console.log('result type:', typeof result);
-        console.log('has then?', result && typeof result.then === 'function');
-        console.log('is jQuery promise?', result && typeof result.promise === 'function');
-        return result;
+        return this.request('/user/me', 'GET');
+    },
+
+    // Tasks
+    getTasksInProgress() {
+        return this.request('/task/in-progress', 'GET');
+    },
+
+    getCompletedTasks() {
+        return this.request('/task/completed', 'GET');
+    },
+
+    getTask(id) {
+        return this.request(`/task/${id}`, 'GET');
+    },
+
+    createTask(title, description) {
+        return this.request('/task', 'POST', { title, description });
+    },
+
+    updateTask(id, title, description) {
+        return this.request(`/task/${id}`, 'PUT', { title, description });
+    },
+
+    completeTask(id) {
+        return this.request(`/task/${id}`, 'PATCH');
+    },
+
+    deleteTask(id) {
+        return this.request(`/task/${id}`, 'DELETE');
     }
 };
