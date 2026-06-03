@@ -6,6 +6,7 @@ import progrohan.backend.dto.TaskRequestDto;
 import progrohan.backend.dto.TaskResponseDto;
 import progrohan.backend.entity.Task;
 import progrohan.backend.entity.TaskStatus;
+import progrohan.backend.entity.UserEntity;
 import progrohan.backend.exception.TaskNotFoundException;
 import progrohan.backend.mapper.TaskMapper;
 import progrohan.backend.repository.TaskRepository;
@@ -18,30 +19,40 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
     private final TaskMapper taskMapper;
+    private final UserService userService;
 
-    public List<TaskResponseDto> getTasksInProgress() {
+    public List<TaskResponseDto> getTasksInProgress(String userName) {
+
+        Long userId = userService.getUserId(userName);
 
         return taskRepository
-                .findByStatus(TaskStatus.IN_PROGRESS)
+                .findByStatus(TaskStatus.IN_PROGRESS, userId)
                 .stream()
                 .map(taskMapper::toDto)
                 .toList();
 
     }
 
-    public List<TaskResponseDto> getTasksCompleted() {
+    public List<TaskResponseDto> getTasksCompleted(String userName) {
+
+        Long userId = userService.getUserId(userName);
 
         return taskRepository
-                .findByStatus(TaskStatus.COMPLETED)
+                .findByStatus(TaskStatus.COMPLETED, userId)
                 .stream()
                 .map(taskMapper::toDto)
                 .toList();
 
     }
 
-    public TaskResponseDto createTask(TaskRequestDto taskRequestDto) {
+    public TaskResponseDto createTask(TaskRequestDto taskRequestDto, String userName) {
+
+        UserEntity user = userService.loadUserEntityByUsername(userName);
 
         Task task = taskMapper.toEntity(taskRequestDto);
+        task.setUser(user);
+        task.setStatus(TaskStatus.IN_PROGRESS);
+
         taskRepository.save(task);
         return taskMapper.toDto(task);
 
