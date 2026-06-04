@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import progrohan.backend.dto.LoginResponseDto;
+import progrohan.backend.dto.UserCreateRequestDto;
 import progrohan.backend.dto.UserRequestDto;
 import progrohan.backend.dto.UserResponseDto;
 import progrohan.backend.entity.UserEntity;
@@ -21,7 +22,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public UserResponseDto createUser(UserRequestDto userRequestDTO) {
+    public UserResponseDto createUser(UserCreateRequestDto userRequestDTO) {
 
         if (userRepository.findByUsername(userRequestDTO.name()).isPresent())
             throw new UserExistException("User with username " + userRequestDTO.name() + " already exists!");

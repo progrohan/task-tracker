@@ -1,6 +1,5 @@
 package progrohan.backend.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import progrohan.backend.dto.LoginResponseDto;
+import progrohan.backend.dto.UserCreateRequestDto;
 import progrohan.backend.dto.UserRequestDto;
 import progrohan.backend.dto.UserResponseDto;
 import progrohan.backend.service.AuthService;
@@ -23,7 +23,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/sign-up")
-    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto userRequestDto) throws URISyntaxException {
+    public ResponseEntity<UserResponseDto> createUser(@RequestBody UserCreateRequestDto userRequestDto) throws URISyntaxException {
 
 
         UserResponseDto user = authService.createUser(userRequestDto);
