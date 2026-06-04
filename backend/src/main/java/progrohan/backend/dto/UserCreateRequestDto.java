@@ -1,0 +1,12 @@
+package progrohan.backend.dto;
+
+public record UserCreateRequestDto(
+
+        String name,
+
+        String email,
+
+        String password
+
+) {
+}
