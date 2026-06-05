@@ -1,0 +1,29 @@
+
+spring:
+  application:
+    name: email-sender
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: email-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        spring.json.trusted.packages: "*"
+
+  mail:
+    from: rohanproger@gmail.com
+    host: in-v3.mailjet.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
