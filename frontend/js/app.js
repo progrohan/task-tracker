@@ -271,34 +271,39 @@ const App = {
 
     renderRegister() {
         const html = `
-            <div class="form-page">
-                <h2>Регистрация</h2>
-                <div class="error" id="register-error" style="display:none"></div>
-                <form id="register-form">
-                    <div class="form-group">
-                        <label>Имя пользователя</label>
-                        <input type="text" id="register-name" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" id="register-password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                </form>
-                <p class="form-link">
-                    Уже есть аккаунт? <span class="link" id="to-login">Войти</span>
-                </p>
-            </div>
-        `;
+        <div class="form-page">
+            <h2>Регистрация</h2>
+            <div class="error" id="register-error" style="display:none"></div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label>Имя пользователя</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+            </form>
+            <p class="form-link">
+                Уже есть аккаунт? <span class="link" id="to-login">Войти</span>
+            </p>
+        </div>
+    `;
 
         $('#app').html(html);
 
         $('#register-form').submit(e => {
             e.preventDefault();
             const name = $('#register-name').val();
+            const email = $('#register-email').val();
             const password = $('#register-password').val();
 
-            Auth.register(name, password)
+            Auth.register(name, email, password)
                 .then(() => this.navigate('login'))
                 .catch(xhr => {
                     const msg = xhr.responseJSON?.message || 'Ошибка регистрации';

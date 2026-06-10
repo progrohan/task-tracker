@@ -28,8 +28,8 @@ const Auth = {
             });
     },
 
-    register(name, password) {
-        return API.signUp(name, password);
+    register(name, email, password) {
+        return API.signUp(name, email, password);
     },
 
     logout() {

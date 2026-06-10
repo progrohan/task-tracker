@@ -26,8 +26,8 @@ const API = {
     },
 
     // Auth
-    signUp(name, password) {
-        return this.request('/auth/sign-up', 'POST', { name, password });
+    signUp(name, email, password) {
+        return this.request('/auth/sign-up', 'POST', { name, email, password });
     },
 
     signIn(name, password) {
