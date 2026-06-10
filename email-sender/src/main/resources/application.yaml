@@ -16,11 +16,10 @@ spring:
 
   mail:
     from: rohanproger@gmail.com
-    host: in-v3.mailjet.com
+    host: smtp.gmail.com
     port: 587
     username: ${MAIL_USERNAME}
     password: ${MAIL_PASSWORD}
-
     properties:
       mail:
         smtp:
