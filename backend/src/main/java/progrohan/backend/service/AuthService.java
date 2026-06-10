@@ -3,6 +3,7 @@ package progrohan.backend.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import progrohan.backend.dto.EmailEvent;
 import progrohan.backend.dto.LoginResponseDto;
 import progrohan.backend.dto.UserCreateRequestDto;
 import progrohan.backend.dto.UserRequestDto;
@@ -21,6 +22,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final EmailProducer emailProducer;
 
     public UserResponseDto createUser(UserCreateRequestDto userRequestDTO) {
 
@@ -33,6 +35,9 @@ public class AuthService {
 
         UserEntity userEntity = userRepository.saveAndFlush(entity);
 
+        EmailEvent event = new EmailEvent(userRequestDTO.email(), "Welcome!", "Registration successful");
+
+        emailProducer.sendEmail(event);
 
         return userMapper.toDto(userEntity);
 
