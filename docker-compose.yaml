@@ -52,6 +52,14 @@ services:
     networks:
       - app-network
 
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - app-network
+
   email-sender:
     build:
       dockerfile: email_sender/Dockerfile
@@ -59,6 +67,7 @@ services:
       - .env
     depends_on:
       - kafka
+      - mailhog
       - backend
     networks:
       - app-network
