@@ -18,7 +18,7 @@ public class MailingService {
     private final EmailBuilderService emailBuilderService;
 
     @Scheduled(cron = "0 55 23 * * *", zone = "Europe/Moscow")
-    public void ProcessUsers(){
+    public void processUsers(){
 
         List<User> users = userRepository.findAllWithTasks();
 
