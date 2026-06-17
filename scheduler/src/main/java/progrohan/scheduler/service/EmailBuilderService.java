@@ -31,6 +31,7 @@ public class EmailBuilderService {
         long completedQuantity = user.getTasks()
                 .stream()
                 .filter(task -> task.getStatus().equals(TaskStatus.COMPLETED))
+                .filter(task -> task.getCompletedAt() != null)
                 .filter(task -> task.getCompletedAt().toLocalDate().equals(LocalDate.now()))
                 .count();
 
