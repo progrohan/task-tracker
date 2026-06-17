@@ -11,6 +11,7 @@ import progrohan.backend.exception.TaskNotFoundException;
 import progrohan.backend.mapper.TaskMapper;
 import progrohan.backend.repository.TaskRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -83,6 +84,7 @@ public class TaskService {
         Task task = getTaskByIdOrThrow(taskId);
 
         task.setStatus(TaskStatus.COMPLETED);
+        task.setCompletedAt(LocalDateTime.now());
 
         taskRepository.save(task);
 
