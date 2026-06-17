@@ -1,3 +1,4 @@
 rootProject.name = 'task-tracker'
 include 'backend'
 include 'email_sender'
+include 'scheduler'

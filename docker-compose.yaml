@@ -40,14 +40,18 @@ services:
     networks:
       - app-network
 
-#  scheduler:
-#    build:
-#      context: ..
-#      dockerfile: scheduler/Dockerfile
-#    depends_on:
-#      - postgres
-#      - kafka
-#
+  scheduler:
+    build:
+      dockerfile: scheduler/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - kafka
+      - backend
+    networks:
+      - app-network
+
   email-sender:
     build:
       dockerfile: email_sender/Dockerfile
